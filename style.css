@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root { 
-  /* Mode Sombre - Palette Open Source */
+  /* Mode Sombre par défaut - Palette Open Source */
   --bg: #121212; 
   --surface: #1E1E1E; 
   --surface2: #2A2A2A; 
@@ -16,16 +16,14 @@
   --yellow: #FBBF24; 
 }
 
-/* Optionnel : Variables pour basculer facilement en mode jour si besoin */
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg: #F8F9FA;
-    --surface: #FFFFFF;
-    --surface2: #E9ECEF;
-    --border: #DEE2E6;
-    --text: #212529;
-    --muted: #6C757D;
-  }
+/* --- Mode Clair (activé par la classe .light-mode sur le body) --- */
+body.light-mode {
+  --bg: #F8F9FA;
+  --surface: #FFFFFF;
+  --surface2: #E9ECEF;
+  --border: #DEE2E6;
+  --text: #212529;
+  --muted: #6C757D;
 }
 
 * { 
@@ -40,6 +38,7 @@ body {
   color: var(--text); 
   line-height: 1.75;
   padding-top: 70px;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* Navbar Fixe Pleine Largeur */
@@ -59,6 +58,7 @@ nav.navbar {
   padding: 0 1rem; 
   height: 60px; 
   width: 100%;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .nav-logo { 
@@ -130,7 +130,7 @@ nav.navbar {
    ========================================== */
 
 .hero { 
-  background: linear-gradient(135deg, #121212, #1E1E1E); 
+  background: linear-gradient(135deg, var(--surface), var(--bg)); 
   padding: 3.2rem 2rem 2.2rem; 
   text-align: center; 
   border-bottom: 1px solid var(--border); 
@@ -294,7 +294,7 @@ td {
 }
 
 tr:hover td { 
-  background: rgba(255,255,255,.02); 
+  background: rgba(128,128,128,.05); 
 }
 
 .keypoint { 
@@ -311,7 +311,7 @@ tr:hover td {
 .keypoint .n { 
   font-family: 'JetBrains Mono', monospace; 
   font-weight: 700; 
-  color: #121212; 
+  color: var(--bg); 
   background: var(--accent); 
   border-radius: 6px; 
   min-width: 30px; 
@@ -342,10 +342,10 @@ tr:hover td {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #121212; /* Assorti à ton thème sombre */
+  background-color: var(--surface);
   min-width: 180px;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.4);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  border: 1px solid var(--border);
   border-radius: 6px;
   z-index: 1000;
   padding: 0.4rem 0;
@@ -353,7 +353,7 @@ tr:hover td {
 
 /* Style des boutons à l'intérieur du sous-menu */
 .dropdown-content button {
-  color: #fff;
+  color: var(--text);
   padding: 0.6rem 1rem;
   text-decoration: none;
   display: block;
@@ -369,8 +369,8 @@ tr:hover td {
 /* Effet au survol des sous-options */
 .dropdown-content button:hover, 
 .dropdown-content button.active {
-  background-color: rgba(16, 185, 129, 0.15); /* Rappel de ta couleur verte */
-  color: #10B981;
+  background-color: rgba(16, 185, 129, 0.15);
+  color: var(--accent);
 }
 
 /* Afficher le menu déroulant quand on survole la catégorie parente */
