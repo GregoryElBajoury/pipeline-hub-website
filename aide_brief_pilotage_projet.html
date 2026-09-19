@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cours & Exemple complet — Répondre à un appel d'offres data</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root { --bg:#0F1117; --surface:#161B27; --surface2:#1E2535; --border:#2A3347; --accent:#8E44AD; --accent2:#00C7D4; --text:#E8EAF0; --muted:#8B95A8; --green:#2ECC71; --orange:#E67E22; --red:#E74C3C; --yellow:#FFE66D; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); line-height:1.75; }
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(15,17,23,0.96); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 2rem; height:54px; }
+  .nav-logo { font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--accent); margin-right:1.5rem; white-space:nowrap; }
+  .nav-tabs { display:flex; flex:1; overflow-x:auto; }
+  .nav-tab { padding:0 .9rem; height:54px; display:flex; align-items:center; font-size:.78rem; font-weight:500; color:var(--muted); cursor:pointer; border:none; background:none; border-bottom:2px solid transparent; white-space:nowrap; }
+  .nav-tab:hover { color:var(--text); }
+  .nav-tab.active { color:var(--accent); border-bottom-color:var(--accent); }
+  .page { display:none; padding-top:54px; min-height:100vh; }
+  .page.active { display:block; }
+  .hero { background:linear-gradient(135deg,#0F1117,#161B27); padding:3.2rem 2rem 2.2rem; text-align:center; border-bottom:1px solid var(--border); position:relative; }
+  .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 0%, rgba(142,68,173,.10) 0%, transparent 70%); }
+  .hero h1 { font-size:clamp(1.6rem,4vw,2.6rem); font-weight:700; margin-bottom:.6rem; position:relative; }
+  .hero h1 span { color:var(--accent); }
+  .hero p { font-size:.92rem; color:var(--muted); max-width:680px; margin:0 auto; position:relative; }
+  .container { max-width:960px; margin:0 auto; padding:2.2rem 2rem; }
+  h2 { font-size:1.35rem; font-weight:700; margin:1.8rem 0 1rem; color:var(--text); }
+  h2:first-child { margin-top:0; }
+  h3 { font-size:1.02rem; font-weight:600; margin:1.5rem 0 .6rem; color:var(--accent2); }
+  p { font-size:.91rem; color:var(--text); margin-bottom:.85rem; }
+  p.muted { color:var(--muted); }
+  ul, ol { margin:.4rem 0 1rem 1.4rem; }
+  li { font-size:.88rem; color:var(--text); margin-bottom:.4rem; }
+  code { font-family:'JetBrains Mono',monospace; color:var(--accent2); font-size:.85em; background:rgba(0,199,212,.08); padding:.1em .35em; border-radius:4px; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1.1rem 1.3rem; margin:1rem 0; }
+  .card-title { font-weight:700; font-size:.92rem; margin-bottom:.5rem; color:var(--text); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; margin:1rem 0; }
+  .callout { border-left:4px solid; border-radius:8px; padding:.85rem 1.05rem; margin:1rem 0; font-size:.86rem; }
+  .callout.info { border-color:var(--accent); background:rgba(142,68,173,.08); }
+  .callout.warn { border-color:var(--orange); background:rgba(230,126,34,.08); }
+  .callout.ok { border-color:var(--green); background:rgba(46,204,113,.07); }
+  .callout.example { border-color:var(--accent2); background:rgba(0,199,212,.07); }
+  .callout strong { color:inherit; }
+  table { width:100%; border-collapse:collapse; margin:1rem 0 1.3rem; font-size:.84rem; }
+  th { background:var(--surface2); color:var(--accent); text-align:left; padding:.55rem .75rem; border-bottom:2px solid var(--border); font-weight:600; }
+  td { padding:.55rem .75rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+  tr:hover td { background:rgba(255,255,255,.02); }
+  .keypoint { display:flex; gap:.9rem; align-items:flex-start; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:.85rem 1.05rem; margin-bottom:.75rem; }
+  .keypoint .n { font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--bg); background:var(--accent); border-radius:6px; min-width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-size:.82rem; }
+  .keypoint div p { margin:0; }
+  .keypoint b { color:var(--text); }
+  .example-box { background:var(--surface2); border-radius:10px; padding:1rem 1.2rem; margin:1rem 0; border:1px dashed var(--accent2); }
+  .example-box .tag { font-family:'JetBrains Mono',monospace; font-size:.68rem; color:var(--accent2); text-transform:uppercase; letter-spacing:.05em; margin-bottom:.5rem; display:block; }
+  .svg-wrap { background:var(--surface2); border-radius:12px; padding:1rem; margin:1rem 0; overflow-x:auto; }
+  .svg-wrap svg { display:block; margin:0 auto; max-width:100%; height:auto; }
+  .legend { display:flex; gap:1.2rem; flex-wrap:wrap; font-size:.78rem; color:var(--muted); margin-top:.6rem; justify-content:center; }
+  .legend .dot { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:.35rem; vertical-align:middle; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">📋 Appel d'offres</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('p1',this)">1. Vue d'ensemble</button>
+    <button class="nav-tab" onclick="showPage('p2',this)">2. Stratégie & Specs</button>
+    <button class="nav-tab" onclick="showPage('p3',this)">3. Gantt & PERT</button>
+    <button class="nav-tab" onclick="showPage('p4',this)">4. Décrire la solution</button>
+    <button class="nav-tab" onclick="showPage('p5',this)">5. Budget, ROI, client</button>
+    <button class="nav-tab" onclick="showPage('p6',this)">6. Équipe & partenaires</button>
+    <button class="nav-tab" onclick="showPage('p7',this)">7. Gouvernance & risques</button>
+    <button class="nav-tab" onclick="showPage('p8',this)">8. À retenir</button>
+  </div>
+</nav>
+
+<div id="p1" class="page active">
+  <div class="hero">
+    <h1>Répondre à un <span>appel d'offres</span> data</h1>
+    <p>Ce document combine le cours et un exemple complet, traité de bout en bout sur une entreprise fictive différente de la vôtre — <b>Café Lumière</b>. Étudiez sa logique, ses graphiques, ses chiffres, puis transposez la méthode à votre propre brief, avec vos propres données. Ne copiez jamais un chiffre ou une phrase.</p>
+  </div>
+  <div class="container">
+    <h2>Pourquoi un dossier en 14 parties ?</h2>
+    <p>Un appel d'offres n'est pas une dissertation libre : chaque partie répond à une question précise qu'un investisseur se pose avant d'engager de l'argent. Le principe le plus important de tout ce document :</p>
+    <div class="callout info">
+      <strong>Chaque partie doit être concrète, jamais générique.</strong> Un chiffre, une contrainte réelle, une expérience vécue valent toujours mieux qu'une page de bonnes intentions qui pourrait s'appliquer à n'importe quelle entreprise.
+    </div>
+
+    <h3>L'exemple fil rouge : Café Lumière</h3>
+    <div class="example-box">
+      <span class="tag">Contexte</span>
+      Café Lumière exploite 3 cafés dans une même ville depuis 6 ans, avec 8 employés. Elle veut ouvrir 5 nouvelles boutiques dans 2 villes voisines d'ici 18 mois. Une banque accepte de financer 180 000 € à condition de recevoir un dossier démontrant que le projet est planifié, budgété, sécurisé et piloté sérieusement — exactement la même logique que votre brief, avec une autre entreprise et un autre financeur.
+    </div>
+  </div>
+</div>
+
+<div id="p2" class="page">
+  <div class="container">
+    <h2>Stratégie : des objectifs, pas des vœux pieux</h2>
+    <p>Un objectif vague ("améliorer l'expérience client") ne se mesure pas. Un bon objectif est <b>SMART</b> : Spécifique, Mesurable, Atteignable, Réaliste, Temporel.</p>
+
+    <h3>Exemple complet — les objectifs de Café Lumière</h3>
+    <table>
+      <tr><th>Objectif</th><th>Mesure</th><th>Échéance</th></tr>
+      <tr><td>Ouvrir 5 boutiques rentables</td><td>CA mensuel ≥ 12 000 €/boutique au 6ᵉ mois</td><td>Mois 18</td></tr>
+      <tr><td>Réduire le temps de service en caisse</td><td>De 4 min à 2 min en moyenne</td><td>Avant l'ouverture de la boutique 1 (mois 4)</td></tr>
+      <tr><td>Uniformiser la formation du personnel</td><td>100 % du nouveau personnel formé avant ouverture</td><td>Continu</td></tr>
+      <tr><td>Maîtriser les coûts d'approvisionnement</td><td>Un seul fournisseur de café pour les 8 boutiques</td><td>Mois 6</td></tr>
+    </table>
+
+    <h3>L'architecture cible : ce qu'on garde, ce qu'on change, pourquoi</h3>
+    <table>
+      <tr><th>Élément</th><th>Existant</th><th>Cible</th><th>Justification</th></tr>
+      <tr><td>Caisse</td><td>Logiciel local, 1 par boutique, non connecté</td><td>Logiciel cloud connecté entre les 8 boutiques</td><td>Suivre les ventes globales, réagir vite</td></tr>
+      <tr><td>Commandes</td><td>Papier au comptoir uniquement</td><td>Commande en ligne avant retrait</td><td>Réduire le temps d'attente (objectif n°2)</td></tr>
+      <tr><td>Fournisseur café</td><td>3 fournisseurs différents</td><td>1 seul, contrat cadre 8 sites</td><td>Économie d'échelle, qualité homogène</td></tr>
+    </table>
+
+    <h2>Spécifications : délimiter le périmètre</h2>
+    <p>La plupart des projets dérapent parce que personne n'a écrit noir sur blanc ce qui <b>n'est pas</b> inclus.</p>
+    <table>
+      <tr><th>Inclus</th><th>Exclu</th></tr>
+      <tr><td>Logiciel de caisse cloud sur 8 boutiques</td><td>Application mobile de fidélité (projet distinct)</td></tr>
+      <tr><td>Commande en ligne avant retrait</td><td>Livraison à domicile</td></tr>
+      <tr><td>Contrat fournisseur unique</td><td>Renégociation des baux existants</td></tr>
+    </table>
+    <div class="callout warn">
+      <strong>Exigences non fonctionnelles à ne jamais oublier :</strong> disponibilité (le système doit fonctionner même en cas de coupure internet), performance (confirmation de commande en moins de 5 secondes), sécurité (aucune donnée de carte bancaire stockée localement).
+    </div>
+  </div>
+</div>
+
+<div id="p3" class="page">
+  <div class="container">
+    <h2>Le diagramme de Gantt — quand chaque chose se passe</h2>
+    <p>Un Gantt est un calendrier visuel : chaque ligne est une tâche, chaque colonne une période, une barre colorée montre la durée.</p>
+
+    <div class="svg-wrap">
+      <svg viewBox="0 0 900 220" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#2A3347" stroke-width="1">
+          <line x1="220" y1="30" x2="220" y2="190"/>
+          <line x1="300" y1="30" x2="300" y2="190"/>
+          <line x1="380" y1="30" x2="380" y2="190"/>
+          <line x1="460" y1="30" x2="460" y2="190"/>
+          <line x1="540" y1="30" x2="540" y2="190"/>
+          <line x1="620" y1="30" x2="620" y2="190"/>
+          <line x1="700" y1="30" x2="700" y2="190"/>
+          <line x1="780" y1="30" x2="780" y2="190"/>
+          <line x1="860" y1="30" x2="860" y2="190"/>
+        </g>
+        <g fill="#8B95A8" font-size="11" font-family="JetBrains Mono, monospace">
+          <text x="220" y="20">M1</text>
+          <text x="300" y="20">M3</text>
+          <text x="380" y="20">M5</text>
+          <text x="460" y="20">M7</text>
+          <text x="540" y="20">M9</text>
+          <text x="620" y="20">M11</text>
+          <text x="700" y="20">M13</text>
+          <text x="780" y="20">M15</text>
+          <text x="860" y="20">M18</text>
+        </g>
+        <g fill="#E8EAF0" font-size="12">
+          <text x="10" y="50">Déploiement caisse cloud</text>
+          <text x="10" y="90">Boutique 1 (travaux+ouv.)</text>
+          <text x="10" y="130">Boutiques 2 à 5</text>
+          <text x="10" y="170">Bilan et ajustements</text>
+        </g>
+        <rect x="220" y="38" width="80" height="18" rx="4" fill="#00C7D4"/>
+        <rect x="300" y="78" width="120" height="18" rx="4" fill="#E67E22"/>
+        <rect x="460" y="118" width="320" height="18" rx="4" fill="#8E44AD"/>
+        <rect x="780" y="158" width="80" height="18" rx="4" fill="#2ECC71"/>
+      </svg>
+    </div>
+
+    <h2>Le diagramme PERT — dans quel ordre, et ce qui bloque tout</h2>
+    <p>Le Gantt montre <i>quand</i>. Le PERT montre <i>ce qui dépend de quoi</i>, et fait apparaître le <b>chemin critique</b> : la suite de tâches qui, si l'une glisse, retarde tout le projet.</p>
+
+    <div class="svg-wrap">
+      <svg viewBox="0 0 780 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#8B95A8"/>
+          </marker>
+          <marker id="arrowCrit" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#E74C3C"/>
+          </marker>
+        </defs>
+        <circle cx="40" cy="160" r="18" fill="#1E2535" stroke="#8B95A8" stroke-width="1.5"/>
+        <text x="40" y="164" text-anchor="middle" fill="#E8EAF0" font-size="11">Début</text>
+        <circle cx="720" cy="160" r="18" fill="#1E2535" stroke="#8B95A8" stroke-width="1.5"/>
+        <text x="720" y="164" text-anchor="middle" fill="#E8EAF0" font-size="11">Fin</text>
+
+        <line x1="58" y1="160" x2="122" y2="160" stroke="#E74C3C" stroke-width="2.5" marker-end="url(#arrowCrit)"/>
+        <rect x="130" y="130" width="110" height="60" rx="8" fill="#E74C3C" fill-opacity="0.15" stroke="#E74C3C" stroke-width="2"/>
+        <text x="185" y="152" text-anchor="middle" fill="#E8EAF0" font-size="12" font-weight="700">B</text>
+        <text x="185" y="168" text-anchor="middle" fill="#E8EAF0" font-size="10">Signer bail</text>
+        <text x="185" y="181" text-anchor="middle" fill="#8B95A8" font-size="10">20 j</text>
+
+        <line x1="240" y1="160" x2="280" y2="160" stroke="#E74C3C" stroke-width="2.5" marker-end="url(#arrowCrit)"/>
+        <rect x="288" y="130" width="110" height="60" rx="8" fill="#E74C3C" fill-opacity="0.15" stroke="#E74C3C" stroke-width="2"/>
+        <text x="343" y="152" text-anchor="middle" fill="#E8EAF0" font-size="12" font-weight="700">C</text>
+        <text x="343" y="168" text-anchor="middle" fill="#E8EAF0" font-size="10">Travaux</text>
+        <text x="343" y="181" text-anchor="middle" fill="#8B95A8" font-size="10">45 j</text>
+
+        <line x1="398" y1="160" x2="438" y2="160" stroke="#E74C3C" stroke-width="2.5" marker-end="url(#arrowCrit)"/>
+        <rect x="446" y="130" width="110" height="60" rx="8" fill="#E74C3C" fill-opacity="0.15" stroke="#E74C3C" stroke-width="2"/>
+        <text x="501" y="152" text-anchor="middle" fill="#E8EAF0" font-size="12" font-weight="700">E</text>
+        <text x="501" y="168" text-anchor="middle" fill="#E8EAF0" font-size="10">Ouverture</text>
+        <text x="501" y="181" text-anchor="middle" fill="#8B95A8" font-size="10">1 j</text>
+
+        <line x1="556" y1="160" x2="700" y2="160" stroke="#E74C3C" stroke-width="2.5" marker-end="url(#arrowCrit)"/>
+
+        <line x1="45" y1="148" x2="130" y2="60" stroke="#8B95A8" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <rect x="130" y="30" width="130" height="55" rx="8" fill="#1E2535" stroke="#8B95A8" stroke-width="1.5"/>
+        <text x="195" y="52" text-anchor="middle" fill="#E8EAF0" font-size="12" font-weight="700">A</text>
+        <text x="195" y="67" text-anchor="middle" fill="#E8EAF0" font-size="10">Déployer caisse cloud</text>
+        <text x="195" y="79" text-anchor="middle" fill="#8B95A8" font-size="10">40 j · marge 25 j</text>
+        <line x1="260" y1="58" x2="450" y2="132" stroke="#8B95A8" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <line x1="45" y1="172" x2="130" y2="255" stroke="#8B95A8" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <rect x="130" y="230" width="130" height="55" rx="8" fill="#1E2535" stroke="#8B95A8" stroke-width="1.5"/>
+        <text x="195" y="252" text-anchor="middle" fill="#E8EAF0" font-size="12" font-weight="700">D</text>
+        <text x="195" y="267" text-anchor="middle" fill="#E8EAF0" font-size="10">Recruter / former</text>
+        <text x="195" y="279" text-anchor="middle" fill="#8B95A8" font-size="10">30 j · marge 35 j</text>
+        <line x1="260" y1="252" x2="450" y2="182" stroke="#8B95A8" stroke-width="1.5" marker-end="url(#arrow)"/>
+      </svg>
+    </div>
+    <div class="legend">
+      <span><span class="dot" style="background:#E74C3C"></span>Chemin critique (66 jours — B→C→E)</span>
+      <span><span class="dot" style="background:#8B95A8"></span>Tâches avec de la marge (non critiques)</span>
+    </div>
+
+    <div class="callout info">
+      <strong>Lecture du PERT :</strong> pour arriver à l'ouverture (E), trois chemins existent : via A (40+1=41 j), via B→C (20+45+1=66 j), via D (30+1=31 j). Le plus long l'emporte : <b>66 jours</b>, en passant par B→C. C'est ce chemin qu'on appelle critique — s'il glisse d'un seul jour, l'ouverture entière glisse d'un jour. A et D, eux, ont de la marge (respectivement 25 et 35 jours) : ils peuvent être un peu retardés sans aucune conséquence sur la date d'ouverture.
+    </div>
+    <div class="callout warn">
+      <strong>Ce que ça change concrètement pour le pilotage :</strong> le gérant de Café Lumière doit suivre B et C de très près (chaque jour de retard compte), et peut se permettre plus de flexibilité sur A et D sans mettre le projet en péril.
+    </div>
+  </div>
+</div>
+
+<div id="p4" class="page">
+  <div class="container">
+    <h2>Les user stories : décrire du point de vue de qui utilise</h2>
+    <div class="callout example">
+      <b>En tant que</b> [rôle], <b>je veux</b> [action], <b>afin de</b> [bénéfice] — jamais de nom de logiciel dans une user story.
+    </div>
+    <table>
+      <tr><th>#</th><th>En tant que...</th><th>Je veux...</th><th>Afin de...</th></tr>
+      <tr><td>1</td><td>Client</td><td>commander en ligne avant de passer au comptoir</td><td>ne pas attendre en caisse</td></tr>
+      <tr><td>2</td><td>Barista</td><td>voir les commandes en ligne sur un écran dédié</td><td>ne pas les ressaisir</td></tr>
+      <tr><td>3</td><td>Gérant</td><td>voir les ventes des 8 boutiques en un seul tableau</td><td>réagir vite si une boutique décroche</td></tr>
+      <tr><td>4</td><td>Resp. marketing</td><td>connaître les habitudes d'achat des clients fidèles</td><td>proposer des offres pertinentes</td></tr>
+    </table>
+
+    <h3>Structure des données cible</h3>
+    <table>
+      <tr><th>Entité</th><th>Champs principaux</th></tr>
+      <tr><td>Vente</td><td>boutique_id, date, montant, moyen_paiement, produits</td></tr>
+      <tr><td>Client fidélité</td><td>nom, email, points, date_dernier_achat</td></tr>
+      <tr><td>Boutique</td><td>nom, ville, date_ouverture, statut</td></tr>
+    </table>
+
+    <h3>Schéma de sécurité — qui accède à quoi</h3>
+    <table>
+      <tr><th>Rôle</th><th>Accès</th></tr>
+      <tr><td>Barista</td><td>Lecture/écriture sur les ventes de sa boutique uniquement</td></tr>
+      <tr><td>Gérant</td><td>Lecture sur toutes les boutiques, jamais d'écriture directe sur une vente</td></tr>
+      <tr><td>Resp. marketing</td><td>Lecture seule sur la fidélité, jamais sur les moyens de paiement</td></tr>
+    </table>
+  </div>
+</div>
+
+<div id="p5" class="page">
+  <div class="container">
+    <h2>Le budget, par poste</h2>
+    <table>
+      <tr><th>Poste</th><th>Montant</th></tr>
+      <tr><td>Logiciel de caisse cloud (8 sites)</td><td>22 000 €</td></tr>
+      <tr><td>Travaux des 5 nouvelles boutiques</td><td>95 000 €</td></tr>
+      <tr><td>Système de commande en ligne</td><td>18 000 €</td></tr>
+      <tr><td>Formation du personnel</td><td>8 000 €</td></tr>
+      <tr><td>Contrat fournisseur (stock initial)</td><td>12 000 €</td></tr>
+      <tr><td>Imprévus (13 %)</td><td>23 400 €</td></tr>
+      <tr style="font-weight:700"><td>TOTAL</td><td>178 400 €</td></tr>
+    </table>
+    <div class="callout ok">Le total reste sous le plafond de 180 000 € accordé par la banque, avec une marge de 1 600 €.</div>
+
+    <h3>Le retour sur investissement (ROI)</h3>
+    <p>Le ROI répond à : <i>"si je dépense X, qu'est-ce que je récupère, et en combien de temps ?"</i> — toujours avec une hypothèse explicite.</p>
+    <div class="example-box">
+      <span class="tag">Calcul</span>
+      Hypothèse : chaque boutique atteint 12 000 €/mois de CA au 6ᵉ mois, marge nette 15 %. Sur 5 boutiques : ≈ 9 000 €/mois de marge nette supplémentaire une fois toutes ouvertes. Amortissement des 178 400 € investis : un peu moins de 20 mois d'exploitation pleine.
+    </div>
+
+    <h2>Vendre la proposition : gagnant-gagnant</h2>
+    <p>Une bonne proposition nomme ce que <b>chaque partie</b> gagne, et assume une contrepartie.</p>
+    <div class="callout example">
+      <b>La banque gagne :</b> un client dont l'activité croît, remboursement sécurisé.<br>
+      <b>Café Lumière gagne :</b> un financement à taux préférentiel, car le dossier prouve une gestion rigoureuse.<br>
+      <b>Contrepartie assumée :</b> un point de suivi trimestriel avec la banque sur les indicateurs clés.
+    </div>
+  </div>
+</div>
+
+<div id="p6" class="page">
+  <div class="container">
+    <h2>La matrice RACI — qui fait quoi, qui décide</h2>
+    <table>
+      <tr><th>Lettre</th><th>Signification</th></tr>
+      <tr><td><b>R</b>esponsible</td><td>Réalise concrètement la tâche</td></tr>
+      <tr><td><b>A</b>ccountable</td><td>Rend des comptes, valide en dernier ressort — un seul par tâche</td></tr>
+      <tr><td><b>C</b>onsulted</td><td>Consulté avant la décision, sans décider</td></tr>
+      <tr><td><b>I</b>nformed</td><td>Informé après coup</td></tr>
+    </table>
+    <div class="callout warn"><strong>Erreur fréquente :</strong> deux "A" sur la même tâche — alors personne n'est vraiment responsable.</div>
+
+    <h3>Exemple complet — RACI de Café Lumière</h3>
+    <table>
+      <tr><th>Activité</th><th>Gérant</th><th>Resp. travaux</th><th>Resp. RH</th><th>Resp. marketing</th></tr>
+      <tr><td>Choix du logiciel de caisse</td><td>A</td><td>C</td><td>I</td><td>C</td></tr>
+      <tr><td>Travaux des boutiques</td><td>A</td><td>R</td><td>I</td><td>I</td></tr>
+      <tr><td>Recrutement et formation</td><td>A</td><td>I</td><td>R</td><td>I</td></tr>
+      <tr><td>Contrat fournisseur</td><td>A</td><td>C</td><td>I</td><td>I</td></tr>
+    </table>
+
+    <h2>La cartographie des parties prenantes</h2>
+    <p>Toutes les parties prenantes n'ont pas le même pouvoir de décision ni le même intérêt direct.</p>
+
+    <div class="svg-wrap">
+      <svg viewBox="0 0 500 420" xmlns="http://www.w3.org/2000/svg">
+        <line x1="60" y1="360" x2="460" y2="360" stroke="#8B95A8" stroke-width="1.5"/>
+        <line x1="60" y1="360" x2="60" y2="30" stroke="#8B95A8" stroke-width="1.5"/>
+        <text x="260" y="395" text-anchor="middle" fill="#8B95A8" font-size="12">Intérêt →</text>
+        <text x="25" y="195" text-anchor="middle" fill="#8B95A8" font-size="12" transform="rotate(-90 25,195)">Pouvoir →</text>
+        <line x1="260" y1="30" x2="260" y2="360" stroke="#2A3347" stroke-dasharray="4,4"/>
+        <line x1="60" y1="195" x2="460" y2="195" stroke="#2A3347" stroke-dasharray="4,4"/>
+        <text x="90" y="55" fill="#8B95A8" font-size="10">Informer</text>
+        <text x="330" y="55" fill="#8B95A8" font-size="10">Impliquer étroitement</text>
+        <text x="90" y="340" fill="#8B95A8" font-size="10">Surveiller de loin</text>
+        <text x="290" y="340" fill="#8B95A8" font-size="10">Tenir informé</text>
+        <circle cx="380" cy="70" r="10" fill="#E74C3C"/>
+        <text x="395" y="65" fill="#E8EAF0" font-size="12">Banque</text>
+        <circle cx="340" cy="330" r="10" fill="#00C7D4"/>
+        <text x="270" y="352" fill="#E8EAF0" font-size="12">Personnel</text>
+        <circle cx="360" cy="120" r="10" fill="#2ECC71"/>
+        <text x="375" y="115" fill="#E8EAF0" font-size="12">Fournisseur café</text>
+        <circle cx="110" cy="80" r="10" fill="#FFE66D"/>
+        <text x="125" y="75" fill="#E8EAF0" font-size="12">Mairie</text>
+      </svg>
+    </div>
+
+    <h2>Choisir des partenaires responsables</h2>
+    <table>
+      <tr><th>Partenaire</th><th>Viabilité</th><th>Équitabilité</th><th>Durabilité</th></tr>
+      <tr><td>Fournisseur de café</td><td>Établi 15 ans, capacité suffisante</td><td>Prix fixé 2 ans, révision encadrée</td><td>Contrat renouvelable, volumes progressifs</td></tr>
+      <tr><td>Éditeur logiciel de caisse</td><td>Startup en croissance, à vérifier</td><td>Tarif dégressif au nombre de boutiques</td><td>Support inclus, feuille de route partagée</td></tr>
+    </table>
+  </div>
+</div>
+
+<div id="p7" class="page">
+  <div class="container">
+    <h2>Le Plan de Gouvernance des Données (PGD)</h2>
+    <table>
+      <tr><th>Élément</th><th>Règle</th></tr>
+      <tr><td>Propriétaire des ventes</td><td>Le gérant</td></tr>
+      <tr><td>Propriétaire de la fidélité</td><td>Le responsable marketing</td></tr>
+      <tr><td>Conservation fidélité</td><td>2 ans après le dernier achat, suppression automatique</td></tr>
+      <tr><td>Cycle de vie</td><td>Création → utilisation → archivage (1 an d'inactivité) → suppression (2 ans)</td></tr>
+    </table>
+
+    <h3>Conformité — grille de vérification</h3>
+    <table>
+      <tr><th>Exigence (RGPD)</th><th>État actuel</th><th>Action corrective</th></tr>
+      <tr><td>Consentement explicite à la collecte</td><td>Non conforme</td><td>Nouveau formulaire avec case à cocher, avant déploiement</td></tr>
+      <tr><td>Droit à l'effacement</td><td>Non formalisé</td><td>Procédure écrite dans le PGD, testée avant l'ouverture</td></tr>
+    </table>
+
+    <h2>Le Plan de Reprise d'Activité (PRA)</h2>
+    <div class="grid">
+      <div class="card"><div class="card-title">RTO — Recovery Time Objective</div><p class="muted">Délai maximal acceptable avant rétablissement du service.</p></div>
+      <div class="card"><div class="card-title">RPO — Recovery Point Objective</div><p class="muted">Quantité de données qu'on accepte de perdre.</p></div>
+    </div>
+    <table>
+      <tr><th>Scénario</th><th>Procédure</th><th>RTO</th><th>RPO</th></tr>
+      <tr><td>Panne caisse cloud</td><td>Mode dégradé papier, resynchronisation ensuite</td><td>2h</td><td>0</td></tr>
+      <tr><td>Perte serveur fidélité</td><td>Restauration depuis sauvegarde quotidienne</td><td>4h</td><td>24h</td></tr>
+    </table>
+    <div class="callout warn"><strong>Un PRA jamais testé ne vaut rien.</strong> Café Lumière prévoit un exercice de coupure simulée un mois après l'ouverture de la boutique 1.</div>
+
+    <h2>La matrice de risques</h2>
+    <div class="svg-wrap">
+      <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#0F1117" stroke-width="2">
+          <rect x="120" y="20" width="110" height="80" fill="#2ECC71" fill-opacity="0.35"/>
+          <rect x="230" y="20" width="110" height="80" fill="#FFE66D" fill-opacity="0.35"/>
+          <rect x="340" y="20" width="110" height="80" fill="#E67E22" fill-opacity="0.35"/>
+          <rect x="120" y="100" width="110" height="80" fill="#2ECC71" fill-opacity="0.35"/>
+          <rect x="230" y="100" width="110" height="80" fill="#FFE66D" fill-opacity="0.35"/>
+          <rect x="340" y="100" width="110" height="80" fill="#E67E22" fill-opacity="0.35"/>
+          <rect x="120" y="180" width="110" height="80" fill="#FFE66D" fill-opacity="0.35"/>
+          <rect x="230" y="180" width="110" height="80" fill="#E67E22" fill-opacity="0.35"/>
+          <rect x="340" y="180" width="110" height="80" fill="#E74C3C" fill-opacity="0.45"/>
+        </g>
+        <text x="175" y="14" text-anchor="middle" fill="#8B95A8" font-size="11">Impact faible</text>
+        <text x="285" y="14" text-anchor="middle" fill="#8B95A8" font-size="11">Impact moyen</text>
+        <text x="395" y="14" text-anchor="middle" fill="#8B95A8" font-size="11">Impact élevé</text>
+        <text x="60" y="65" text-anchor="middle" fill="#8B95A8" font-size="11">Prob. faible</text>
+        <text x="60" y="145" text-anchor="middle" fill="#8B95A8" font-size="11">Prob. moyenne</text>
+        <text x="60" y="225" text-anchor="middle" fill="#8B95A8" font-size="11">Prob. élevée</text>
+        <circle cx="395" cy="140" r="14" fill="#1E2535" stroke="#E8EAF0"/>
+        <text x="395" y="145" text-anchor="middle" fill="#E8EAF0" font-size="12" font-weight="700">1</text>
+        <circle cx="395" cy="60" r="14" fill="#1E2535" stroke="#E8EAF0"/>
+        <text x="395" y="65" text-anchor="middle" fill="#E8EAF0" font-size="12" font-weight="700">2</text>
+        <circle cx="285" cy="140" r="14" fill="#1E2535" stroke="#E8EAF0"/>
+        <text x="285" y="145" text-anchor="middle" fill="#E8EAF0" font-size="12" font-weight="700">3</text>
+        <circle cx="418" cy="60" r="14" fill="#1E2535" stroke="#E8EAF0"/>
+        <text x="418" y="65" text-anchor="middle" fill="#E8EAF0" font-size="12" font-weight="700">4</text>
+        <circle cx="308" cy="140" r="14" fill="#1E2535" stroke="#E8EAF0"/>
+        <text x="308" y="145" text-anchor="middle" fill="#E8EAF0" font-size="12" font-weight="700">5</text>
+      </svg>
+    </div>
+    <table>
+      <tr><th>#</th><th>Risque</th><th>Mitigation</th><th>Resp.</th></tr>
+      <tr><td>1</td><td>Retard des travaux (sur le chemin critique)</td><td>Marge de 2 semaines, pénalité de retard contractuelle</td><td>Resp. travaux</td></tr>
+      <tr><td>2</td><td>Panne caisse en forte affluence</td><td>Mode dégradé testé avant chaque ouverture</td><td>Gérant</td></tr>
+      <tr><td>3</td><td>Personnel insuffisamment formé</td><td>Formation terminée 1 semaine avant, pas la veille</td><td>Resp. RH</td></tr>
+      <tr><td>4</td><td>Rupture d'approvisionnement</td><td>Chevauchement d'1 mois entre fournisseurs</td><td>Gérant</td></tr>
+      <tr><td>5</td><td>Dérive budgétaire travaux</td><td>Marge 23 400 €, devis fermes signés</td><td>Gérant</td></tr>
+    </table>
+    <div class="callout info"><strong>Lecture :</strong> le risque 1 tombe dans la case orange (probabilité moyenne, impact élevé) — cohérent avec le fait que les travaux sont sur le chemin critique identifié au PERT. Ce n'est pas un hasard : les deux analyses (planning et risques) doivent se recouper.</div>
+  </div>
+</div>
+
+<div id="p8" class="page">
+  <div class="container">
+    <h2>Sensibiliser : mesurer l'adhésion, pas la participation</h2>
+    <table>
+      <tr><th>Public</th><th>Action</th><th>Fréquence</th></tr>
+      <tr><td>Personnel en caisse</td><td>Session de 20 min sur les mots de passe</td><td>À l'embauche, rappel annuel</td></tr>
+      <tr><td>Gérants de boutique</td><td>Atelier sur le tableau de bord multi-sites</td><td>Trimestriel</td></tr>
+    </table>
+    <div class="callout info"><strong>Participation</strong> = combien de personnes présentes. <strong>Adhésion</strong> = le comportement a-t-il vraiment changé ? Indicateur retenu pour Café Lumière : nombre d'incidents mineurs de sécurité par trimestre — cible : diminution continue.</div>
+
+    <h2>Ce qu'il faut retenir</h2>
+    <div class="keypoint"><div class="n">1</div><div><p><b>Chaque partie doit être concrète.</b> Un chiffre, une contrainte réelle valent mieux qu'une généralité.</p></div></div>
+    <div class="keypoint"><div class="n">2</div><div><p><b>Gantt = quand ; PERT = dans quel ordre et ce qui bloque tout.</b></p></div></div>
+    <div class="keypoint"><div class="n">3</div><div><p><b>RACI : un seul "Accountable" par tâche.</b></p></div></div>
+    <div class="keypoint"><div class="n">4</div><div><p><b>PGD = les règles ; PRA = le plan de secours.</b> Deux documents, deux questions différentes.</p></div></div>
+    <div class="keypoint"><div class="n">5</div><div><p><b>Un risque sans responsable ni mitigation n'est qu'une inquiétude.</b></p></div></div>
+    <div class="keypoint"><div class="n">6</div><div><p><b>Tout doit se recouper</b> — un risque sur le chemin critique du PERT doit apparaître en case rouge/orange de la matrice de risques, pas être traité séparément.</p></div></div>
+
+    <h3>Vocabulaire</h3>
+    <table>
+      <tr><th>Terme</th><th>Définition</th></tr>
+      <tr><td>SMART</td><td>Spécifique, Mesurable, Atteignable, Réaliste, Temporel</td></tr>
+      <tr><td>Chemin critique</td><td>La suite de tâches qui ne peut souffrir aucun retard</td></tr>
+      <tr><td>RACI</td><td>Responsible / Accountable / Consulted / Informed</td></tr>
+      <tr><td>ROI</td><td>Retour sur investissement</td></tr>
+      <tr><td>PGD / PRA</td><td>Plan de Gouvernance des Données / Plan de Reprise d'Activité</td></tr>
+      <tr><td>RTO / RPO</td><td>Délai de reprise / Perte de données acceptable</td></tr>
+    </table>
+  </div>
+</div>
+
+<script>
+  function showPage(id, tab) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    tab.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>
