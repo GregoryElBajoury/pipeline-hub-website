@@ -1,0 +1,379 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root { 
+  /* Mode Sombre - Palette Open Source */
+  --bg: #121212; 
+  --surface: #1E1E1E; 
+  --surface2: #2A2A2A; 
+  --border: #333333; 
+  --accent: #10B981; /* Vert Émeraude / Code */
+  --accent2: #F59E0B; /* Orange Énergie */
+  --text: #E3E3E3; 
+  --muted: #9AA0A6; 
+  --green: #10B981; 
+  --orange: #F59E0B; 
+  --red: #EF4444; 
+  --yellow: #FBBF24; 
+}
+
+/* Optionnel : Variables pour basculer facilement en mode jour si besoin */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #F8F9FA;
+    --surface: #FFFFFF;
+    --surface2: #E9ECEF;
+    --border: #DEE2E6;
+    --text: #212529;
+    --muted: #6C757D;
+  }
+}
+
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+}
+
+body { 
+  font-family: 'Inter', sans-serif; 
+  background: var(--bg); 
+  color: var(--text); 
+  line-height: 1.75;
+  padding-top: 70px;
+}
+
+/* Navbar Fixe Pleine Largeur */
+nav.navbar { 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  z-index: 1000; 
+  background: var(--bg); 
+  opacity: 0.98;
+  backdrop-filter: blur(12px); 
+  border-bottom: 1px solid var(--border); 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+  padding: 0 1rem; 
+  height: 60px; 
+  width: 100%;
+}
+
+.nav-logo { 
+  font-family: 'JetBrains Mono', monospace; 
+  font-size: .8rem; 
+  color: var(--accent); 
+  margin-right: 1rem; 
+  white-space: nowrap; 
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+/* Répartition fluide des onglets sur toute la largeur */
+.nav-links { 
+  display: flex; 
+  gap: 0.15rem; 
+  align-items: center;
+  flex-grow: 1;
+  justify-content: space-evenly;
+}
+
+.nav-tab { 
+  padding: 0.3rem 0.4rem; 
+  height: 36px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  font-size: 0.7rem; 
+  font-weight: 500; 
+  color: var(--muted); 
+  cursor: pointer; 
+  border: none; 
+  background: none; 
+  border-radius: 6px;
+  white-space: nowrap; 
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.nav-tab:hover { 
+  color: var(--text); 
+  background: var(--surface2);
+}
+
+.nav-tab.active { 
+  color: var(--text); 
+  background: var(--surface2);
+  border-bottom: 2px solid var(--accent);
+}
+
+/* Gestion des pages */
+.main-content {
+  padding: 2rem 3rem;
+}
+
+.page { 
+  display: none; 
+  min-height: calc(100vh - 70px); 
+}
+
+.page.active { 
+  display: block; 
+}
+
+/* ==========================================
+   Composants du blog (Cartes, Hero, Callouts, etc.)
+   ========================================== */
+
+.hero { 
+  background: linear-gradient(135deg, #121212, #1E1E1E); 
+  padding: 3.2rem 2rem 2.2rem; 
+  text-align: center; 
+  border-bottom: 1px solid var(--border); 
+  position: relative; 
+}
+
+.hero::before { 
+  content: ''; 
+  position: absolute; 
+  inset: 0; 
+  background: radial-gradient(ellipse at 50% 0%, rgba(16,185,129,.08) 0%, transparent 70%); 
+}
+
+.hero h1 { 
+  font-size: clamp(1.6rem, 4vw, 2.6rem); 
+  font-weight: 700; 
+  margin-bottom: .6rem; 
+  position: relative; 
+}
+
+.hero h1 span { 
+  color: var(--accent); 
+}
+
+.hero p { 
+  font-size: .92rem; 
+  color: var(--muted); 
+  max-width: 680px; 
+  margin: 0 auto; 
+  position: relative; 
+}
+
+.container { 
+  max-width: 960px; 
+  margin: 0 auto; 
+  padding: 2.2rem 2rem; 
+}
+
+h2 { 
+  font-size: 1.35rem; 
+  font-weight: 700; 
+  margin: 1.8rem 0 1rem; 
+  color: var(--text); 
+}
+
+h2:first-child { 
+  margin-top: 0; 
+}
+
+h3 { 
+  font-size: 1.02rem; 
+  font-weight: 600; 
+  margin: 1.5rem 0 .6rem; 
+  color: var(--accent2); 
+}
+
+p { 
+  font-size: .91rem; 
+  color: var(--text); 
+  margin-bottom: .85rem; 
+}
+
+p.muted { 
+  color: var(--muted); 
+}
+
+ul, ol { 
+  margin: .4rem 0 1rem 1.4rem; 
+}
+
+li { 
+  font-size: .88rem; 
+  color: var(--text); 
+  margin-bottom: .4rem; 
+}
+
+code { 
+  font-family: 'JetBrains Mono', monospace; 
+  color: var(--accent); 
+  font-size: .85em; 
+  background: rgba(16,185,129,.1); 
+  padding: .1em .35em; 
+  border-radius: 4px; 
+}
+
+.card { 
+  background: var(--surface); 
+  border: 1px solid var(--border); 
+  border-radius: 12px; 
+  padding: 1.1rem 1.3rem; 
+  margin: 1rem 0; 
+}
+
+.card-title { 
+  font-weight: 700; 
+  font-size: .92rem; 
+  margin-bottom: .5rem; 
+  color: var(--text); 
+}
+
+.grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+  gap: 1rem; 
+  margin: 1rem 0; 
+}
+
+.callout { 
+  border-left: 4px solid; 
+  border-radius: 8px; 
+  padding: .85rem 1.05rem; 
+  margin: 1rem 0; 
+  font-size: .86rem; 
+}
+
+.callout.info { 
+  border-color: var(--accent); 
+  background: rgba(16,185,129,.08); 
+}
+
+.callout.warn { 
+  border-color: var(--orange); 
+  background: rgba(245,158,11,.08); 
+}
+
+.callout.ok { 
+  border-color: var(--green); 
+  background: rgba(16,185,129,.08); 
+}
+
+.callout.example { 
+  border-color: var(--accent2); 
+  background: rgba(245,158,11,.08); 
+}
+
+.callout strong { 
+  color: inherit; 
+}
+
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  margin: 1rem 0 1.3rem; 
+  font-size: .84rem; 
+}
+
+th { 
+  background: var(--surface2); 
+  color: var(--accent); 
+  text-align: left; 
+  padding: .55rem .75rem; 
+  border-bottom: 2px solid var(--border); 
+  font-weight: 600; 
+}
+
+td { 
+  padding: .55rem .75rem; 
+  border-bottom: 1px solid var(--border); 
+  color: var(--text); 
+  vertical-align: top; 
+}
+
+tr:hover td { 
+  background: rgba(255,255,255,.02); 
+}
+
+.keypoint { 
+  display: flex; 
+  gap: .9rem; 
+  align-items: flex-start; 
+  background: var(--surface); 
+  border: 1px solid var(--border); 
+  border-radius: 10px; 
+  padding: .85rem 1.05rem; 
+  margin-bottom: .75rem; 
+}
+
+.keypoint .n { 
+  font-family: 'JetBrains Mono', monospace; 
+  font-weight: 700; 
+  color: #121212; 
+  background: var(--accent); 
+  border-radius: 6px; 
+  min-width: 30px; 
+  height: 30px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-size: .82rem; 
+}
+
+.keypoint div p { 
+  margin: 0; 
+}
+
+.keypoint b { 
+  color: var(--text); 
+}
+
+/* --- Styles pour les menus déroulants de la navbar --- */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Le conteneur du sous-menu (caché par défaut) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #121212; /* Assorti à ton thème sombre */
+  min-width: 180px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  z-index: 1000;
+  padding: 0.4rem 0;
+}
+
+/* Style des boutons à l'intérieur du sous-menu */
+.dropdown-content button {
+  color: #fff;
+  padding: 0.6rem 1rem;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+/* Effet au survol des sous-options */
+.dropdown-content button:hover, 
+.dropdown-content button.active {
+  background-color: rgba(16, 185, 129, 0.15); /* Rappel de ta couleur verte */
+  color: #10B981;
+}
+
+/* Afficher le menu déroulant quand on survole la catégorie parente */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
