@@ -101,7 +101,12 @@ nav.navbar {
 }
 
 .nav-tab:hover { 
-  color: var(--text); 
+  color: var(--accent); 
+  background: var(--surface2);
+}
+
+.dropdown > .nav-tab:hover {
+  color: var(--accent);
   background: var(--surface2);
 }
 
