@@ -4,7 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Pipeline Hub</title>
+<<<<<<< HEAD
  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%23121212%22/><text x=%224%22 y=%2222%22 fill=%22%2310B981%22 font-family=%22monospace%22 font-weight=%22bold%22 font-size=%2218%22>&gt;_</text></svg>">
+=======
+  <!-- Favicon Terminal -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%23121212%22/><text x=%224%22 y=%2222%22 fill=%22%2310B981%22 font-family=%22monospace%22 font-weight=%22bold%22 font-size=%2218%22>&gt;_</text></svg>">
+>>>>>>> 12fcc74 (feat: ajout du mode sombre/clair et mise à jour du style CSS associé)
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,11 +20,18 @@
       <span>>_</span> <strong>GrOoT</strong> <span class="muted">THE PIPELINE HUB</span>
     </div>
     
-    <div class="nav-links">
+    <!-- Bouton Hamburger pour mobile -->
+    <button class="menu-toggle" id="menu-toggle" aria-label="Ouvrir le menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <div class="nav-links" id="nav-links">
       <button class="nav-tab active" onclick="showPage('home', this)">Home</button>
       
       <!-- Les projets  -->
-      <button class="nav-tab" onclick="showPage('projet1', this)">Projet #1</button>
+      <button class="nav-tab" onclick="showPage('projet1', this)">Chronos 14-18</button>
       <button class="nav-tab" onclick="showPage('projet2', this)">Projet #2</button>
       <button class="nav-tab" onclick="showPage('projet3', this)">Projet #3</button>
       <button class="nav-tab" onclick="showPage('projet4', this)">Projet #4</button>
@@ -107,11 +119,112 @@
       </div>
     </section>
 
+<<<<<<< HEAD
     <!-- Les idées de projet -->
+=======
+    <!-- Projet #1 : Chronos 14-18 -->
+>>>>>>> 12fcc74 (feat: ajout du mode sombre/clair et mise à jour du style CSS associé)
     <section id="projet1" class="page">
-      <div class="hero"><h1>Projet <span>#1</span></h1><p class="muted">Espace réservé à une future idée de projet fil rouge.</p></div>
-      <div class="container"><div class="callout example">Atelier collaboratif : Ce sujet est en cours de discussion.</div></div>
+      <div class="hero">
+        <h1>Chronos <span>14-18</span></h1>
+        <p class="muted">Plateforme de reconstitution et de traçabilité des parcours de combattants par croisement d'archives.</p>
+      </div>
+
+      <div class="container">
+        <!-- Pitch -->
+        <div class="callout info">
+          <strong>Le pitch :</strong> Une plateforme qui croise les archives numérisées de 14-18 (fiches Morts pour la France, registres matricules, Journaux des marches et opérations, etc.) pour reconstituer et visualiser le parcours documenté d'un combattant, sans jamais confondre ce qu'une source atteste directement et ce qu'un algorithme déduit.
+        </div>
+
+        <h2>Le Principe Technique</h2>
+        <p>Le pipeline logique s'articule ainsi :</p>
+        <p><code>Soldat</code> ➔ <code>Affecté à une unité</code> ➔ <code>Unité présente dans un secteur à une date</code> ➔ <code>Événements décrits dans les JMO</code> ➔ <code>Documents sources correspondants</code></p>
+        
+        <div class="card">
+          <div class="card-title">🔍 Traçabilité & Indice de Confiance</div>
+          <p>Chaque maillon de cette chaîne peut être soit <strong>directement attesté par une source</strong>, soit <strong>reconstitué par croisement</strong> de plusieurs données.</p>
+          <p class="muted">L'idée clé est de toujours conserver cette distinction en documentant la provenance, la méthode d'obtention et un score de confiance (ex: une affectation directe depuis un registre matricule vs une présence dans un secteur déduite par recoupement).</p>
+        </div>
+
+        <h2>Pourquoi éviter un sujet "template" ?</h2>
+        <div class="grid">
+          <div class="card">
+            <div class="card-title">🚀 Un Vrai Problème Data + IA</div>
+            <p class="muted">Sortir des classiques ETL ou dashboards BI. On traite ici des données réelles, publiques, hétérogènes et non structurées (scans, manuscrits de 1914, formats multiples).</p>
+          </div>
+          <div class="card">
+            <div class="card-title">🛡️ Gouvernance & Enjeux</div>
+            <p class="muted">Gouvernance forte : provenance, qualité, traçabilité, licences variables, validation des résultats IA et conservation des documents originaux.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">🎯 Couverture des 5 Blocs</div>
+            <p class="muted">Permet de valider l'intégralité du référentiel de certification de manière cohérente et naturelle, sans ajouter de fonctionnalités artificielles.</p>
+          </div>
+        </div>
+
+        <h2>Couverture des 5 Blocs du Référentiel</h2>
+        
+        <div class="keypoint">
+          <div class="n">B1</div>
+          <div>
+            <p><b>Stratégie du projet :</b> Veille sur l'HTR/OCR, NLP, Knowledge Graphs et web sémantique. Approche Green IT (GPU à la demande, stockage froid des archives, limitation des traitements superflus).</p>
+          </div>
+        </div>
+        <div class="keypoint">
+          <div class="n">B2</div>
+          <div>
+            <p><b>Management de projet :</b> Spécifications, approche hybride (cadrage classique pour l'archi/gouvernance + agilité pour l'IA), planning, budget et estimation de la valeur créée (temps de dépouillement économisé, taux d'automatisation).</p>
+          </div>
+        </div>
+        <div class="keypoint">
+          <div class="n">B3</div>
+          <div>
+            <p><b>Gouvernance, Risques & Conformité :</b> RGPD (comptes, contributeurs), plan de gouvernance, gestion de la traçabilité, registre des risques, PRA (RTO/RPO mesurables) et gestion des licences d'archives.</p>
+          </div>
+        </div>
+        <div class="keypoint">
+          <div class="n">B4</div>
+          <div>
+            <p><b>Infrastructure de données (Polyglotte) :</b> Azure Blob Storage/ADLS (scans/PDF), MongoDB (semi-structuré), PostgreSQL (analytique), RDF/OWL / Knowledge Graph (relations), et Kafka (pipeline événementiel pour découpler les étapes : <code>ingested</code> ➔ <code>htr_completed</code> ➔ <code>entities_extracted</code> ➔ <code>linked</code> ➔ <code>validated</code>).</p>
+          </div>
+        </div>
+        <div class="keypoint">
+          <div class="n">B5</div>
+          <div>
+            <p><b>Data & IA :</b> Ingestion (API/scraping), HTR (manuscrits vers texte), NLP/NER (extraction d'entités), Entity Linking, scores de confiance, validation humaine, MLOps et dashboards de qualité.</p>
+          </div>
+        </div>
+
+        <h2>Périmètre Réaliste (Le MVP)</h2>
+        <div class="callout warn">
+          <strong>Objectif :</strong> Ne pas traiter toutes les archives de France, mais viser un <strong>corpus pilote</strong> fonctionnel de bout en bout :
+          <ul>
+            <li>Les JMO d'une division ou de quelques régiments ;</li>
+            <li>Les fiches "Morts pour la France" correspondantes ;</li>
+            <li>Les registres matricules d'un département ;</li>
+            <li>Quelques référentiels géographiques et militaires.</li>
+          </ul>
+        </div>
+
+        <h2>Organisation de l'équipe (4 rôles & 6 briques)</h2>
+        <p>Le projet est découpé en 6 briques interconnectées par des contrats communs (schémas d'événements, API, ontologie versionnée) pour responsabiliser chaque membre :</p>
+        <div class="grid">
+          <div class="card"><div class="card-title">1. Gouvernance / Pilotage</div></div>
+          <div class="card"><div class="card-title">2. Ingestion / Événements</div></div>
+          <div class="card"><div class="card-title">3. Stockage / Knowledge Graph</div></div>
+          <div class="card"><div class="card-title">4. IA / HTR / NLP</div></div>
+          <div class="card"><div class="card-title">5. Produit / Visualisation</div></div>
+          <div class="card"><div class="card-title">6. Qualité / Sécurité / MLOps</div></div>
+        </div>
+
+        <div class="callout example" style="margin-top: 2rem;">
+          <strong>Conclusion :</strong> Un projet ambitieux mais taillé pour réussir grâce à un périmètre resserré et une architecture claire. 
+          Dites-moi si ça vous branche, si vous voyez des trous dans le raisonnement ou des trucs qui vous semblent trop ambitieux, et on peut en discuter.
+        </div>
+      </div>
     </section>
+
+    <!-- Les autres projets de base -->
     <section id="projet2" class="page">
       <div class="hero"><h1>Projet <span>#2</span></h1><p class="muted">Espace réservé à une future idée de projet fil rouge.</p></div>
       <div class="container"><div class="callout example">Atelier collaboratif : Ce sujet est en cours de discussion.</div></div>
@@ -185,6 +298,14 @@
       if (element) {
         element.classList.add('active');
       }
+
+      // Fermer le menu mobile si un lien est cliqué
+      const menuToggle = document.getElementById('menu-toggle');
+      const navLinks = document.getElementById('nav-links');
+      if (menuToggle && navLinks) {
+        menuToggle.classList.remove('open');
+        navLinks.classList.remove('active');
+      }
     }
 
     function toggleTheme() {
@@ -198,6 +319,22 @@
         btn.textContent = '🌙';
       }
     }
+<<<<<<< HEAD
+=======
+
+    // Gestion du clic sur le bouton hamburger
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuToggle = document.getElementById('menu-toggle');
+      const navLinks = document.getElementById('nav-links');
+
+      if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', () => {
+          menuToggle.classList.toggle('open');
+          navLinks.classList.toggle('active');
+        });
+      }
+    });
+>>>>>>> 12fcc74 (feat: ajout du mode sombre/clair et mise à jour du style CSS associé)
   </script>
 </body>
 </html>

@@ -376,4 +376,76 @@ tr:hover td {
 /* Afficher le menu déroulant quand on survole la catégorie parente */
 .dropdown:hover .dropdown-content {
   display: block;
+<<<<<<< HEAD
+=======
+}
+
+/* ==========================================
+   Menu Hamburger & Mobile UX
+   ========================================== */
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 101;
+}
+
+.menu-toggle span {
+  width: 100%;
+  height: 3px;
+  background-color: var(--accent, #10B981);
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 900px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg, #121212);
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 0;
+    gap: 0.75rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid var(--border, rgba(16, 185, 129, 0.2));
+    
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+  }
+
+  .nav-links.active {
+    max-height: 700px;
+    opacity: 1;
+  }
+
+  .menu-toggle.open span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+  .menu-toggle.open span:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-toggle.open span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+
+  body {
+    padding-top: 70px;
+  }
+>>>>>>> 12fcc74 (feat: ajout du mode sombre/clair et mise à jour du style CSS associé)
 }
