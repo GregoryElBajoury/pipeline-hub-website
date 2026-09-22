@@ -376,8 +376,7 @@ tr:hover td {
 /* Afficher le menu déroulant quand on survole la catégorie parente */
 .dropdown:hover .dropdown-content {
   display: block;
-<<<<<<< HEAD
-=======
+
 }
 
 /* ==========================================
@@ -447,5 +446,5 @@ tr:hover td {
   body {
     padding-top: 70px;
   }
->>>>>>> 12fcc74 (feat: ajout du mode sombre/clair et mise à jour du style CSS associé)
+
 }

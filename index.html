@@ -4,12 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Pipeline Hub</title>
-<<<<<<< HEAD
- <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%23121212%22/><text x=%224%22 y=%2222%22 fill=%22%2310B981%22 font-family=%22monospace%22 font-weight=%22bold%22 font-size=%2218%22>&gt;_</text></svg>">
-=======
   <!-- Favicon Terminal -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%23121212%22/><text x=%224%22 y=%2222%22 fill=%22%2310B981%22 font-family=%22monospace%22 font-weight=%22bold%22 font-size=%2218%22>&gt;_</text></svg>">
->>>>>>> 12fcc74 (feat: ajout du mode sombre/clair et mise à jour du style CSS associé)
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -119,11 +115,7 @@
       </div>
     </section>
 
-<<<<<<< HEAD
-    <!-- Les idées de projet -->
-=======
     <!-- Projet #1 : Chronos 14-18 -->
->>>>>>> 12fcc74 (feat: ajout du mode sombre/clair et mise à jour du style CSS associé)
     <section id="projet1" class="page">
       <div class="hero">
         <h1>Chronos <span>14-18</span></h1>
@@ -265,10 +257,91 @@
     </section>
 
     <!-- Pages des sous-catégories Data (avec OrbitalPulse ptetre) -->
+    <!-- Pages des sous-catégories Data (OrbitalPulse) -->
     <section id="orbital-pulse" class="page">
-      <div class="hero"><h1>Data <span>// OrbitalPulse 🛰️</span></h1><p class="muted">Pipeline de télémétrie en temps réel de l'ISS.</p></div>
+      <div class="hero">
+        <h1>Data <span>// OrbitalPulse 🛰️</span></h1>
+        <p class="muted">Pipeline de télémétrie en temps réel de la Station Spatiale Internationale (ISS).</p>
+      </div>
+
       <div class="container">
-        <div class="callout info">Collecte de métriques spatiales via Python, PostgreSQL et Streamlit 3D.</div>
+        <!-- Pitch -->
+        <div class="callout info">
+          <strong>Le pitch :</strong> Pipeline de données et de télémétrie en temps réel de la Station Spatiale Internationale (ISS), orchestré via Kubernetes (Minikube) et visualisé à l'aide d'un dashboard Streamlit interactif (Globe 3D Plotly).
+        </div>
+
+        <h2>Architecture & Stack Technique</h2>
+        <p>Le projet est conçu selon une approche cloud-native, conteneurisée et découplée :</p>
+        
+        <div class="grid">
+          <div class="card">
+            <div class="card-title">📡 Collecteur de Données</div>
+            <p class="muted">Script Python interrogeant l'API officielle de l'ISS (wheretheiss.at), exécuté de manière éphémère et automatisée via un CronJob Kubernetes.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">💾 Stockage</div>
+            <p class="muted">Base de données relationnelle PostgreSQL pour l'historisation des points de télémétrie (latitude, longitude, altitude, vitesse, visibilité, horodatage).</p>
+          </div>
+          <div class="card">
+            <div class="card-title">🌐 Interface & Visualisation</div>
+            <p class="muted">Application Streamlit intégrée avec Plotly (graph_objects) pour un affichage sphérique en 3D (projection orthographique) avec tracé de la trajectoire orbitale.</p>
+          </div>
+        </div>
+
+        <h2>Arborescence du Projet</h2>
+        <pre style="background: var(--bg-card, #1e1e1e); padding: 1rem; border-radius: 8px; overflow-x: auto;"><code>orbitalpulse/
+├── .github/workflows/ci.yml    # Pipeline CI/CD (GitHub Actions)
+├── k8s/                        # Manifestes Kubernetes
+│   ├── adminer.yaml
+│   ├── collector-cronjob.yaml
+│   ├── postgres-deployment.yaml
+│   ├── postgres-init-configmap.yaml
+│   ├── pvc.yaml
+│   ├── secret.yaml
+│   └── ui-deployment.yaml
+├── sql/                        # Scripts d'initialisation de la BDD
+├── app.py                      # Application Streamlit (UI & Globe 3D)
+├── collector.py                # Script de collecte des données de l'ISS
+├── Dockerfile                  # Multi-stage Dockerfile pour l'UI et le collector
+├── docker-compose.yml          # Stack locale de développement
+├── requirements.txt            # Dépendances Python
+└── README.md</code></pre>
+
+        <h2>Pipeline CI/CD (GitHub Actions)</h2>
+        <p>Le projet intègre une pipeline d'intégration continue (<code>ci.yml</code>) déclenchée automatiquement sur chaque push ou pull_request vers les branches <code>main</code> et <code>master</code> :</p>
+        <div class="keypoint">
+          <div class="n">01</div>
+          <div><p><b>test-and-lint :</b> Configure l'environnement Python, lance flake8 pour la qualité de code, et exécute les tests unitaires avec pytest dans une BDD de test éphémère.</p></div>
+        </div>
+        <div class="keypoint">
+          <div class="n">02</div>
+          <div><p><b>docker-build :</b> Se déclenche si les tests réussissent et utilise Docker Buildx pour valider la compilation et le multi-stage build sans push inutile.</p></div>
+        </div>
+
+        <h2>Guide de Démarrage</h2>
+        <div class="grid">
+          <div class="card">
+            <div class="card-title">Option 1 : Docker Compose</div>
+            <p class="muted">1. <code>cp .env.example .env</code><br>2. <code>docker compose up --build -d</code><br><br><b>Accès :</b> Streamlit (<code>:8501</code>) & Adminer (<code>:8080</code>)</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Option 2 : Kubernetes (Minikube)</div>
+            <p class="muted">1. <code>minikube start</code><br>2. <code>kubectl apply -f k8s/</code><br>3. <code>minikube image load orbitalpulse-ui:latest</code></p>
+          </div>
+        </div>
+
+        <h2>Fonctionnalités Clés & Améliorations</h2>
+        <div class="callout ok">
+          <ul>
+            <li><b>Actualisation en temps réel :</b> Utilisation de <code>streamlit-autorefresh</code> pour interroger périodiquement PostgreSQL sans rechargement manuel.</li>
+            <li><b>Visualisation Spatiale :</b> Globe 3D interactif centré sur l'ISS avec affichage de la traînée historique.</li>
+            <li><b>Optimisation future :</b> Amélioration du rendu de l'interface Streamlit (gestion du redessin du globe 3D) pour éliminer les micro-scintillements.</li>
+          </ul>
+        </div>
+
+        <p style="margin-top: 1.5rem; text-align: center;">
+          <a href="https://github.com/GregoryElBajoury/orbitalpulse" target="_blank" style="color: var(--accent, #10B981); font-weight: bold; text-decoration: none;">🔗 Accéder au dépôt GitHub OrbitalPulse</a>
+        </p>
       </div>
     </section>
     <section id="data-pipelines" class="page">
@@ -319,8 +392,8 @@
         btn.textContent = '🌙';
       }
     }
-<<<<<<< HEAD
-=======
+
+
 
     // Gestion du clic sur le bouton hamburger
     document.addEventListener('DOMContentLoaded', () => {
@@ -334,7 +407,7 @@
         });
       }
     });
->>>>>>> 12fcc74 (feat: ajout du mode sombre/clair et mise à jour du style CSS associé)
+ 
   </script>
 </body>
 </html>
