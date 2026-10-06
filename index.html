@@ -218,8 +218,159 @@
 
     <!-- Les autres projets de base -->
     <section id="projet2" class="page">
-      <div class="hero"><h1>Projet <span>#2</span></h1><p class="muted">Espace réservé à une future idée de projet fil rouge.</p></div>
-      <div class="container"><div class="callout example">Atelier collaboratif : Ce sujet est en cours de discussion.</div></div>
+      <div class="hero">
+        <h1>BGMI <span>— Board Game Market Intelligence</span></h1>
+        <p class="muted">Projet fil rouge — Titre EIDMIA « Expert en Ingénierie de Données Massives et Intelligence Artificielle » (RNCP40167)</p>
+      </div>
+
+      <div class="container">
+        <!-- Mission -->
+        <div class="callout info">
+          <strong>Mission :</strong> Donner aux petits éditeurs de jeux de société une lecture calibrée, datée et segmentée du marché, en collectant automatiquement les données de référence (BoardGameGeek, Kickstarter, Gamefound, Game On Tabletop), en condensant l'avis des joueurs par IA, et en délivrant des analyses de marché actionnables par public cible (familial, novice, expert).
+        </div>
+
+        <h2>1. Résumé Express</h2>
+        <table>
+          <tr><th>Élément</th><th>Décision</th></tr>
+          <tr><td><b>Porteurs</b></td><td>Groupe de 4 candidats</td></tr>
+          <tr><td><b>Commanditaire</b></td><td>Éditeur fictif crédible : Éditions du Septième Coup</td></tr>
+          <tr><td><b>Ambition</b></td><td>MVP fonctionnel réel : collecteurs actifs, modèles IA entraînés, dashboards déployés</td></tr>
+          <tr><td><b>Marché visé</b></td><td>International, BGG d'abord (API XML officielle), crowdfunding ensuite</td></tr>
+          <tr><td><b>Approche IA</b></td><td>Mix : DL fine-tuné (sentiment/aspects) + LLM en API (synthèses) + ML classique (scoring calibré)</td></tr>
+          <tr><td><b>Infrastructure</b></td><td>Comparatif Scaleway / OVHcloud / AWS / GCP inclus — argument Green IT</td></tr>
+          <tr><td><b>Horizon</b></td><td>~5 mois hors les murs (~20 semaines), en parallèle du stage et de la formation</td></tr>
+          <tr><td><b>Nom</b></td><td>BGMI (Board Game Market Intelligence)</td></tr>
+        </table>
+        <p class="muted"><b>Principe directeur :</b> Un seul investissement technique, cinq récoltes d'évaluation. Chaque brique du MVP sert simultanément de preuve de compétence pour les 5 blocs et de matière première pour les dossiers et oraux.</p>
+
+        <h2>2. Le Client Fictif : Éditions du Septième Coup</h2>
+        <div class="grid">
+          <div class="card">
+            <div class="card-title">🏢 Statut & Chiffres</div>
+            <p class="muted"><b>SARL fondée en 2016 à Lyon.</b> 9 salariés (édition, dev, vente). Pas de DSI, un prestataire informatique généraliste. CA annuel : ~1,7 M€ (France / Belgique / Suisse).</p>
+          </div>
+          <div class="card">
+            <div class="card-title">⚠️ Douleurs & Objectif</div>
+            <p class="muted">Face à 4 000+ nouveautés mondiales par an, impossible de savoir ce qui fonctionnera dans 12-18 mois. Décisions prises à l'intuition. <b>Objectif :</b> Lancer 2 nouveautés en 2027 sur des créneaux à forte demande / faible offre.</p>
+          </div>
+        </div>
+
+        <h2>3. Vision Produit BGMI</h2>
+        <h3>3.1 Cas d'Usage</h3>
+        <div class="keypoint">
+          <div class="n">01</div>
+          <div><p><b>Radar marché :</b> Référentiel des sorties des 24 derniers mois, qualifié par type, genre, mécaniques, durée, âge, public et prix.</p></div>
+        </div>
+        <div class="keypoint">
+          <div class="n">02</div>
+          <div><p><b>Écoute des joueurs :</b> Avis et commentaires agrégés, classés par aspect (règles, matériel, rejouabilité, thème) et condensés en synthèses.</p></div>
+        </div>
+        <div class="keypoint">
+          <div class="n">03</div>
+          <div><p><b>Scoring calibré de potentiel :</b> Estimation de la demande et de la saturation d'un concept par segment de public avec probabilités fiabilisées.</p></div>
+        </div>
+        <div class="keypoint">
+          <div class="n">04</div>
+          <div><p><b>Recommandation éditoriale :</b> Rapport « quels créneaux publier en 2027 », tendances, signaux faibles et suivi de fiabilité des prédictions.</p></div>
+        </div>
+
+        <h3>3.2 Périmètre</h3>
+        <div class="grid">
+          <div class="card">
+            <div class="card-title">v1 (MVP, S1 ➔ S12)</div>
+            <p class="muted">BGG (API XML2) : jeux 24 derniers mois + backfill historique, notes, avis commentés ; NLP sentiment/aspects ; scoring + simulateur ; dashboards marché.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">v2 (S12 ➔ S18)</div>
+            <p class="muted">Kickstarter, Gamefound, Game On Tabletop (spike CGU/robots.txt d'abord) ; alertes tendance ; rapports automatisés.</p>
+          </div>
+        </div>
+        <div class="callout warn">
+          <strong>Hors périmètre (Non-goals) :</strong> Données de ventes réelles, scraping de boutiques en ligne, application mobile, temps réel inférieur à 24h, multi-tenant SaaS durci.
+        </div>
+
+        <h2>4. Architecture Cible & Choix Structurants</h2>
+        <div class="callout info">
+          <strong>Architecture globale :</strong> Pipelines orchestrés par Airflow alimentant un data lake (stockage objet S3-compatible), un entrepôt PostgreSQL (schéma en étoile), MongoDB pour les avis non structurés, et une ontologie SKOS/OWL de la taxonomie des jeux. Exposition via FastAPI, Metabase et Streamlit.
+        </div>
+        <div class="grid">
+          <div class="card">
+            <div class="card-title">Stockage & Modélisation</div>
+            <p class="muted">Zones bronze, silver, gold. PostgreSQL (faits et dimensions) + MongoDB pour les avis textuels semi-structurés.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">IA & MLOps</div>
+            <p class="muted">DistilBERT / CamemBERT, LLM en API avec cache, LightGBM + calibration isotonique, MLflow (registry & tracking), Prometheus + Grafana.</p>
+          </div>
+        </div>
+
+        <h2>5. Volet IA & Frugalité</h2>
+        <div class="keypoint"><div class="n">NLP</div><div><p><b>Fine-tuning DistilBERT / CamemBERT :</b> Analyse de sentiments et par aspects (règles, matériel, rejouabilité, thème).</p></div></div>
+        <div class="keypoint"><div class="n">LLM</div><div><p><b>Condensation des avis :</b> LLM en API (ex. Mistral) avec prompts structurés et cache pour maîtriser les coûts.</p></div></div>
+        <div class="keypoint"><div class="n">Score</div><div><p><b>Scoring de potentiel :</b> LightGBM sur features marché avec calibration de probabilité et explicabilité SHAP.</p></div></div>
+        <div class="callout ok">
+          <strong>Optimisation & MLOps :</strong> Utilisation d'Optuna pour les hyperparamètres, quantification INT8 / ONNX, et suivi de la dérive des données (Evidently).
+        </div>
+
+        <h2>6. Stack Technique & Arbitrage Cloud</h2>
+        <div class="grid">
+          <div class="card">
+            <div class="card-title">🛠️ Outils & Langages</div>
+            <p class="muted">Python 3.12, Polars, Airflow, Docker, PostgreSQL 16, MongoDB, MinIO, FastAPI, Metabase, Streamlit, Great Expectations.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">☁️ Arbitrage Cloud RSE</div>
+            <p class="muted">Recommandation : hébergeur français bas carbone (Scaleway / OVHcloud) pour l'argument Green IT (C.3.2) et la souveraineté UE, avec équivalences managées documentées.</p>
+          </div>
+        </div>
+
+        <h2>7. Couverture Intégrale du Référentiel (41 compétences)</h2>
+        <p>Le projet garantit au moins une preuve observable et documentée pour chaque bloc de certification :</p>
+        <div class="grid">
+          <div class="card">
+            <div class="card-title">BC01 & BC02 (Stratégie & Management)</div>
+            <p class="muted">Veille structurée, innovation, analyse du SI client, diagnostic SWOT/PESTEL, méthodologie Agile/CRISP-DM, plan de charge et ROI.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">BC03 & BC04 (Gouvernance & Infra)</div>
+            <p class="muted">Plan de gouvernance des données, conformité RGPD/AI Act, PRA (RTO/RPO), modélisation en étoile, NoSQL, pipelines sécurisés et IaC.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">BC05 (Data & IA)</div>
+            <p class="muted">Crawling grande échelle, normalisation, fine-tuning Deep Learning, optimisation de modèles, MLOps, EDA et dashboards décisionnels.</p>
+          </div>
+        </div>
+
+        <h2>8. Organisation de l'Équipe & Roadmap (~20 semaines)</h2>
+        <div class="callout info">
+          <strong>Double casquette :</strong> Chaque membre du groupe de 4 porte à la fois une section de dossier par bloc et un rôle de lead technique (Data engineering, NLP/Modèles, BI/Qualité, Infra/Cloud/MLOps).
+        </div>
+        <p><b>Phasage global :</b></p>
+        <ul>
+          <li><b>P0 (S1-S2) :</b> Cadrage, charte, architecture, réponse à l'AO fictif, spike CGU.</li>
+          <li><b>P1 (S2-S6) :</b> Collecte BGG, bronze/silver, modèle étoile, Great Expectations.</li>
+          <li><b>P2 (S6-S10) :</b> Corpus avis, fine-tuning NLP, synthèses LLM.</li>
+          <li><b>P3 (S10-S12) :</b> Scoring LightGBM, simulateur Streamlit, validation temporelle.</li>
+          <li><b>P4 (S12-S15) :</b> CI/CD, monitoring, MLOps, sécurité, PRA.</li>
+          <li><b>P5 & P6 (S15-S20) :</b> Consolidation des dossiers, REX individuels, oraux blancs et marge.</li>
+        </ul>
+
+        <h2>9. Risques Majeurs & Green IT</h2>
+        <div class="grid">
+          <div class="card">
+            <div class="card-title">🛡️ Principaux Risques & Parades</div>
+            <p class="muted">Temps réel limité (périmètre v1 resserré), CGU des sources (priorité aux API officielles), biais de popularité (indicateurs normalisés et validation temporelle).</p>
+          </div>
+          <div class="card">
+            <div class="card-title">🌱 Approche Green IT / RSE</div>
+            <p class="muted">Right-sizing assumé (pas de cluster disproportionné), collecte incrémentale avec cache, modèles compacts et estimation de l'empreinte carbone au tableau de bord.</p>
+          </div>
+        </div>
+
+        <p style="margin-top: 2rem; text-align: center;">
+          <a href="https://github.com" target="_blank" style="color: var(--accent); font-weight: bold; text-decoration: none;">🔗 Dépôt GitHub du Projet Fil Rouge BGMI</a>
+        </p>
+      </div>
     </section>
     <section id="projet3" class="page">
       <div class="hero"><h1>Projet <span>#3</span></h1><p class="muted">Espace réservé à une future idée de projet fil rouge.</p></div>
