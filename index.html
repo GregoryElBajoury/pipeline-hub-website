@@ -373,6 +373,7 @@
       </div>
     </section>
     <!-- Projet #3 : QuantMarket (Crypto & Market Intelligence) -->
+    <!-- Projet #3 : QuantMarket -->
     <section id="projet3" class="page">
       <div class="hero">
         <h1>QuantMarket <span>— Market Intelligence & Crypto</span></h1>
@@ -380,52 +381,59 @@
       </div>
 
       <div class="container">
-        <!-- Mission -->
+        <!-- Pitch -->
         <div class="callout info">
-          <strong>Le pitch :</strong> Construire progressivement un pipeline Data complet capable de récupérer des données de marché via des API, de les stocker et traiter, d'analyser les prix, volumes et volatilité, et d'utiliser le Machine Learning pour identifier des opportunités, simuler des positions et mesurer les performances via du backtesting. L'objectif est de mettre en pratique l'ensemble des technologies de la formation sur un cas réel.
+          <strong>Le pitch :</strong> Construire un pipeline Data complet de bout en bout capable d'ingérer des flux financiers massifs via des API, de structurer un entrepôt de données robuste, d'entraîner des modèles de Machine Learning pour identifier des opportunités de position, et de restituer des indicateurs actionnables via Power BI et des backtests de performance.
         </div>
 
-        <h2>1. Architecture & Pipeline de Données (Blocs 11 & 14)</h2>
-        <div class="grid">
-          <div class="card">
-            <div class="card-title">🔌 Collecte & Ingestion (Bloc 14)</div>
-            <p class="muted">Connexion aux API de marché (crypto/finance), mise en place de pipelines d'ingestion robustes, feature engineering et contrôles qualité rigoureux des données brutes.</p>
-          </div>
-          <div class="card">
-            <div class="card-title">💾 Stockage & Traitement (Bloc 11)</div>
-            <p class="muted">Architecture Data complète : flux de données ➔ stockage ➔ transformation ➔ PostgreSQL / Data Warehouse ➔ couches analytiques orientées IA et BI.</p>
-          </div>
+        <h2>1. Architecture Technique & Pipeline (Blocs 11 & 14)</h2>
+        <p>Le flux de données s'articule autour d'une architecture moderne et découplée :</p>
+        <p><code>API Marché / Exchange</code> ➔ <code>Ingestion & Throttling</code> ➔ <code>Bronze (Stockage Brut)</code> ➔ <code>Silver (Transformation & Clean)</code> ➔ <code>Gold (Data Warehouse PostgreSQL)</code></p>
+        
+        <div class="card">
+          <div class="card-title">🔍 Gouvernance et Qualité des Données</div>
+          <p>Mise en place de contrôles stricts sur la fraîcheur, l'intégrité et le format des séries temporelles financières pour garantir la fiabilité des analyses en aval.</p>
         </div>
 
         <h2>2. Administration, Sécurité & Cloud (Blocs 12 & 13)</h2>
-        <div class="keypoint">
-          <div class="n">01</div>
-          <div><p><b>Administration & Sécurité (Bloc 12) :</b> Gestion fine des permissions, centralisation des logs, monitoring actif des flux, politiques de sauvegarde et procédures de restauration garantissant l'intégrité de la plateforme.</p></div>
-        </div>
-        <div class="keypoint">
-          <div class="n">02</div>
-          <div><p><b>Déploiement Cloud (Bloc 13) :</b> Architecture cloud scalable, gestion optimisée des coûts, conteneurisation, déploiement automatisé et mise en place d'un Plan de Reprise d'Activité (PRA).</p></div>
+        <div class="grid">
+          <div class="card">
+            <div class="card-title">🛡️ Sécurité & Supervision (Bloc 12)</div>
+            <p class="muted">Gestion fine des accès (RBAC), centralisation des logs d'exécution, monitoring en temps réel de la santé des pipelines et politiques de sauvegarde/restauration automatisées.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">☁️ Infrastructure Cloud (Bloc 13)</div>
+            <p class="muted">Déploiement sur une architecture cloud scalable, conteneurisation des services, optimisation des coûts d'infrastructure et mise en place d'un Plan de Reprise d'Activité (PRA).</p>
+          </div>
         </div>
 
         <h2>3. Intelligence Artificielle & MLOps (Bloc 15)</h2>
-        <div class="callout ok">
-          <strong>Modélisation prédictive :</strong> Constitution d'un dataset historique propre, entraînement et comparaison de modèles de Machine Learning pour identifier des situations et opportunités de prise de position, couplés à une démarche MLOps structurée.
+        <div class="keypoint">
+          <div class="n">AI</div>
+          <div>
+            <p><b>Modélisation prédictive :</b> Constitution d'un historique de features financières, entraînement, comparaison de modèles de Machine Learning (classification de signaux de tendance ou de rupture) et suivi des métriques via une démarche MLOps structurée.</p>
+          </div>
         </div>
 
         <h2>4. Analyse, Simulation & Visualisation (Bloc 16)</h2>
         <div class="grid">
           <div class="card">
-            <div class="card-title">📊 Visualisation Power BI</div>
-            <p class="muted">Exploration de données (EDA), création d'indicateurs de marché avancés, de signaux dynamiques et de dashboards Power BI pour suivre les positions simulées.</p>
+            <div class="card-title">📊 Dashboards Power BI</div>
+            <p class="muted">Exploration approfondie (EDA), création d'indicateurs de volatilité, de momentum et de signaux de marché dynamiques centralisés sous Power BI.</p>
           </div>
           <div class="card">
-            <div class="card-title">⚙️ Simulation & Backtesting</div>
-            <p class="muted">Suivi des positions simulées (conserver, renforcer ou clôturer) et mesure précise des performances à l'aide de backtests rigoureux.</p>
+            <div class="card-title">⚙️ Backtesting & Performance</div>
+            <p class="muted">Simulation de prises de position (conserver, renforcer, clôturer) et évaluation rigoureuse de la rentabilité théorique par le backtesting.</p>
           </div>
         </div>
 
+        <h2>5. Périmètre du MVP & Roadmap</h2>
+        <div class="callout warn">
+          <strong>Objectif :</strong> Démontrer la maîtrise de l'ensemble de la chaîne de valeur (Ingestion ➔ Stockage ➔ Modélisation ➔ BI) sur un sous-ensemble d'actifs ciblés avant d'élargir le périmètre à l'ensemble du marché crypto/fi.
+        </div>
+
         <p style="margin-top: 2rem; text-align: center;">
-          <a href="https://github.com" target="_blank" style="color: var(--accent); font-weight: bold; text-decoration: none;">🔗 Dépôt GitHub du Projet QuantMarket</a>
+          <!--<a href="https://github.com" target="_blank" style="color: var(--accent); font-weight: bold; text-decoration: none;">🔗 Dépôt GitHub du Projet QuantMarket</a> -->
         </p>
       </div>
     </section>
